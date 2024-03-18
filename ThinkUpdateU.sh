@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##########################################################################################################################
-# Script: ThinkInstallF
+# Script: ThinkUpdateU
 # Autor: ThinkRoot
 # Versiune: 1.1
 
