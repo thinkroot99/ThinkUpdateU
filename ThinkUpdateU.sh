@@ -43,6 +43,10 @@ update_deb_packages() {
 
 # Funcție pentru a actualiza pachetele Flatpak
 update_flatpak_packages() {
+    if ! command -v flatpak >/dev/null 2>&1; then
+        echo "Eroare: Flatpak nu este instalat pe acest sistem."
+        return 1
+    fi
     echo "--------------------------------------------------------"
     echo "Actualizare pachetelor Flatpak..."
     flatpak update -y
@@ -54,6 +58,10 @@ update_flatpak_packages() {
 
 # Funcție pentru a actualiza pachetele Snap
 update_snap_packages() {
+    if ! command -v snap >/dev/null 2>&1; then
+        echo "Eroare: Snap nu este instalat pe acest sistem."
+        return 1
+    fi
     echo "--------------------------------------------------------"
     echo "Actualizare pachetelor Snap..."
     sudo snap refresh
