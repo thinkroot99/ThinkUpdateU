@@ -36,37 +36,52 @@ update_deb_packages() {
     sudo apt update
     sudo apt full-upgrade -y
     echo "Actualizarea pachetelor DEB a fost finalizată."
-    read -p "Apăsați Enter pentru a continua..."
+    if [ "$1" != "nopause" ]; then
+        read -p "Apăsați Enter pentru a continua..."
+    fi
 }
 
 # Funcție pentru a actualiza pachetele Flatpak
 update_flatpak_packages() {
+    if ! command -v flatpak >/dev/null 2>&1; then
+        echo "Eroare: Flatpak nu este instalat pe acest sistem."
+        return 1
+    fi
     echo "--------------------------------------------------------"
     echo "Actualizare pachetelor Flatpak..."
     flatpak update -y
     echo "Actualizarea pachetelor Flatpak a fost finalizată."
-    read -p "Apăsați Enter pentru a continua..."
+    if [ "$1" != "nopause" ]; then
+        read -p "Apăsați Enter pentru a continua..."
+    fi
 }
 
 # Funcție pentru a actualiza pachetele Snap
 update_snap_packages() {
+    if ! command -v snap >/dev/null 2>&1; then
+        echo "Eroare: Snap nu este instalat pe acest sistem."
+        return 1
+    fi
     echo "--------------------------------------------------------"
     echo "Actualizare pachetelor Snap..."
     sudo snap refresh
     echo "Actualizarea pachetelor Snap a fost finalizată."
-    read -p "Apăsați Enter pentru a continua..."
+    if [ "$1" != "nopause" ]; then
+        read -p "Apăsați Enter pentru a continua..."
+    fi
 }
 
 # Funcție pentru a actualiza toate tipurile de pachete
 update_all_packages() {
-    update_deb_packages
-    update_flatpak_packages
-    update_snap_packages
+    update_deb_packages nopause
+    update_flatpak_packages nopause
+    update_snap_packages nopause
+    read -p "Actualizarea tuturor pachetelor a fost finalizată. Apăsați Enter pentru a continua..."
 }
 
 while true; do
     show_menu
-    case $option in
+    case "$option" in
         1)
             update_deb_packages
             ;;
